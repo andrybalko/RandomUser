@@ -47,9 +47,6 @@ namespace RandomUserApi
 
 			var res = await client.GetAsync(request.GetPath());
 			res.EnsureSuccessStatusCode();
-			
-			string body = await res.Content.ReadAsStringAsync();
-			Debug.WriteLine(body);
 
 			try
 			{

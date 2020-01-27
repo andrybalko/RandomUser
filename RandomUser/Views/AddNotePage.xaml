@@ -15,7 +15,7 @@
 				Text="Add note for current user"
 				VerticalOptions="StartAndExpand"
 				VerticalTextAlignment="Start" />
-			<Editor HeightRequest="200" VerticalOptions="CenterAndExpand" x:Name="Notes"/>
+			<Editor HeightRequest="200" VerticalOptions="CenterAndExpand" x:Name="Notes" BackgroundColor="Silver"/>
 			<Button Text="Submit" VerticalOptions="EndAndExpand" Clicked="Button_Clicked" />
 		</StackLayout>
 	</ContentPage.Content>

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace RandomUser
@@ -18,7 +20,8 @@ namespace RandomUser
 		public DetailsPage()
 		{
 			InitializeComponent();
-		}
+            On<iOS>().SetUseSafeArea(true);
+        }
 
 		protected override void OnBindingContextChanged()
 		{

@@ -64,13 +64,13 @@ namespace RandomUser
 
 			if (Nationality?.Length > 0)
 			{
-				req.ForNationality(Nationality.Replace(" ", "")).ForSeed();
+				req.ForNationality(Nationality.Replace(" ", "").ToLower()).ForSeed();
 
 			}
 			if (Gender?.Length > 0)
 			{
 				//seeds don't work with gender selection
-				req.ForGender(Gender.Replace(" ", ""));
+				req.ForGender(Gender.Replace(" ", "").ToLower());
 			}
 
 			return req;

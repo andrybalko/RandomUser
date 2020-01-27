@@ -1,8 +1,8 @@
-﻿using RandomUserApi.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using RandomUserApi.Models;
 
 namespace RandomUser.ViewModels
 {
@@ -13,7 +13,7 @@ namespace RandomUser.ViewModels
 		public User SelectedUser { 
 			get => selectedUser; 
 			set { 
-				selectedUser = value; 
+				selectedUser = value;
 			}
 		}
 

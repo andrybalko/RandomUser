@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace RandomUser.Views
@@ -17,7 +19,10 @@ namespace RandomUser.Views
 		public AddNotePage()
 		{
 			InitializeComponent();
-		}
+            On<iOS>().SetUseSafeArea(true);
+
+            Notes.Focus();
+        }
 
 		private void Button_Clicked(object sender, EventArgs e)
 		{
