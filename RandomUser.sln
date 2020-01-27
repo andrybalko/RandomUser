@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomUser.iOS", "RandomUse
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomUser", "RandomUser\RandomUser.csproj", "{13F08940-16B8-46BB-B6BF-E1ABF6522315}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomUserApi", "..\RandomUserApi\RandomUserApi.csproj", "{AB62B266-A961-4809-9CFF-D22C87AE0C2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomUserApi", "RandomUserApi\RandomUserApi.csproj", "{AB62B266-A961-4809-9CFF-D22C87AE0C2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
