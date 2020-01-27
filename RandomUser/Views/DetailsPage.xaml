@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+	x:Class="RandomUser.DetailsPage"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:converters="clr-namespace:RandomUser.Converters"
+	xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:tabview="clr-namespace:Xam.Plugin.TabView;assembly=Xam.Plugin.TabView"
+	Title="{Binding SelectedUser.Name, Converter={StaticResource NameConverter}}"
+	mc:Ignorable="d">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Clicked="ToolbarItem_Clicked" Text="Add Note" />
+	</ContentPage.ToolbarItems>
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<converters:NameConverter x:Key="NameConverter" />
+		</ResourceDictionary>
+	</ContentPage.Resources>
+	<ContentPage.Content>
+		<StackLayout Margin="0,20,0,0">
+			<Image
+				Aspect="AspectFit"
+				HeightRequest="200"
+				HorizontalOptions="Center"
+				Source="{Binding SelectedUser.Picture.Large}"
+				WidthRequest="200" />
+			<StackLayout VerticalOptions="CenterAndExpand">
+				<Label
+					x:Name="Prop"
+					HorizontalOptions="CenterAndExpand"
+					Text="{Binding PropName}"
+					TextColor="Gray" />
+				<Label
+					x:Name="Value"
+					FontSize="Large"
+					HorizontalOptions="CenterAndExpand"
+					Text="{Binding PropValue}"
+					TextColor="Black" />
+			</StackLayout>
+			<tabview:TabViewControl
+				ContentHeight="0"
+				HeaderTabTextFontSize="9"
+				SelectedTabIndex="{Binding SelectedTabIndex, Mode=OneWayToSource}"
+				VerticalOptions="EndAndExpand">
+				<tabview:TabViewControl.ItemSource>
+					<tabview:TabItem
+						HeaderIcon="per.png"
+						HeaderText="Name"
+						HeaderTextColor="Gray">
+						<StackLayout />
+					</tabview:TabItem>
+					<tabview:TabItem
+						HeaderIcon="env.png"
+						HeaderText="Email"
+						HeaderTextColor="Gray">
+						<StackLayout />
+
+					</tabview:TabItem>
+					<tabview:TabItem
+						HeaderIcon="not.png"
+						HeaderText="Birthday"
+						HeaderTextColor="Gray">
+						<StackLayout />
+
+					</tabview:TabItem>
+					<tabview:TabItem
+						HeaderIcon="map.png"
+						HeaderText="Address"
+						HeaderTextColor="Gray">
+						<StackLayout />
+
+					</tabview:TabItem>
+					<tabview:TabItem
+						HeaderIcon="pho.png"
+						HeaderText="Phone"
+						HeaderTextColor="Gray">
+						<StackLayout />
+
+					</tabview:TabItem>
+					<tabview:TabItem
+						HeaderIcon="loc.png"
+						HeaderText="Password"
+						HeaderTextColor="Gray">
+						<StackLayout />
+
+					</tabview:TabItem>
+				</tabview:TabViewControl.ItemSource>
+			</tabview:TabViewControl>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

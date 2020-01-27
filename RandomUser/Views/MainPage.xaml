@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+	x:Class="RandomUser.MainPage"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:converters="clr-namespace:RandomUser.Converters"
+	xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:RandomUser"
+	Title="Users"
+	mc:Ignorable="d">
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<converters:NameConverter x:Key="NameConverter" />
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
+	<ContentPage.BindingContext>
+		<vm:MainViewModel />
+	</ContentPage.BindingContext>
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Command="{Binding RefreshUsersCommand}" Text="Refresh" />
+	</ContentPage.ToolbarItems>
+
+	<StackLayout Margin="5">
+		<StackLayout HorizontalOptions="FillAndExpand">
+			<Entry
+				x:Name="Gender"
+				HorizontalOptions="FillAndExpand"
+				Placeholder="male/female"
+				Text="{Binding Gender, Mode=TwoWay}" />
+			<Entry
+				x:Name="Natio"
+				HorizontalOptions="FillAndExpand"
+				Placeholder="AU,BR,CA,CH,DE,DK,ES,FI,FR,GB,IE,IR,NO,NL,NZ,TR,US"
+				Text="{Binding Nationality, Mode=TwoWay}" />
+
+		</StackLayout>
+
+		<vm:ListViewBase
+			HasUnevenRows="True"
+			ItemSelected="ListViewBase_ItemSelected"
+			ItemsSource="{Binding Users}"
+			LoadPageCommand="{Binding LoadUsersCommand}"
+			RefreshCommand="{Binding RefreshUsersCommand}"
+			SelectedItem="{Binding SelectedUser}"
+			TotalElements="{Binding TotalUsers}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell Height="70">
+						<StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+							<Image
+								Aspect="AspectFit"
+								HeightRequest="50"
+								HorizontalOptions="Start"
+								Source="{Binding Picture.Thumbnail}"
+								VerticalOptions="Center"
+								WidthRequest="50" />
+							<Label
+								HorizontalOptions="FillAndExpand"
+								Text="{Binding Name, Converter={StaticResource NameConverter}}"
+								VerticalOptions="CenterAndExpand"
+								VerticalTextAlignment="Center" />
+							<StackLayout
+								Margin="0,10"
+								HorizontalOptions="End"
+								VerticalOptions="CenterAndExpand">
+								<Label
+									FontSize="Micro"
+									Text="{Binding Nat}"
+									VerticalOptions="Center" />
+								<Label
+									FontSize="Micro"
+									Text="{Binding Gender}"
+									VerticalOptions="Center" />
+							</StackLayout>
+
+						</StackLayout>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</vm:ListViewBase>
+
+
+	</StackLayout>
+
+</ContentPage>
