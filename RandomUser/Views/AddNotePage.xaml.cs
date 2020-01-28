@@ -1,11 +1,6 @@
 ﻿using Plugin.Settings;
 using RandomUser.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -29,6 +24,7 @@ namespace RandomUser.Views
 			BaseViewModel vm = (BaseViewModel)this.BindingContext;
 			if (vm != null)
 			{
+				//saving note here. It is not displayed, but can be
 				CrossSettings.Current.AddOrUpdateValue(vm.SelectedUser.Login.Uuid.ToString(), Notes.Text);
 			}
 			Navigation.PopModalAsync(true);

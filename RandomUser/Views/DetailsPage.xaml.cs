@@ -23,12 +23,6 @@ namespace RandomUser
             On<iOS>().SetUseSafeArea(true);
         }
 
-		protected override void OnBindingContextChanged()
-		{
-			base.OnBindingContextChanged();
-			Debug.WriteLine(BindingContext);
-		}
-
 		private void ToolbarItem_Clicked(object sender, EventArgs e)
 		{
 			var p = new AddNotePage();

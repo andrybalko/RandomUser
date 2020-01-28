@@ -23,10 +23,9 @@ namespace RandomUser
 		public int TotalUsers => Users != null ? Users.Count : 0;
 		public MainViewModel()
 		{
-			client = new RestClient(new RestClientConfig()
-			{
-				UseSeed = true
-			});
+			//client must be created by DI framework like Prism and injected via constructor parameter.
+			//In this particular case I use a kind of a singleton instance
+			client = ((App)App.Current).Client;
 			LoadUsersCommand.Execute(null);
 		}
 
@@ -41,36 +40,19 @@ namespace RandomUser
 
 		public ObservableCollection<User> Users { get; set; }
 
-		public ICommand LoadUsersCommand => new Command(async () =>
-		{
-			var users = await client.MakeRequestAsync(FillRequest());
-
-			var t = new ObservableCollection<User>(Users??new ObservableCollection<User>());
-			foreach (var item in users)
-			{
-				t.Add(item);
-			}
-			Users = new ObservableCollection<User>(t);
-			OnPropertyChanged(nameof(Users));
-			OnPropertyChanged(nameof(TotalUsers));
-			IsListRefreshing = false;
-			OnPropertyChanged(nameof(IsListRefreshing));
-
-		});
-
+		//this method can be extracted to separate class because requests might be created from different places
 		private Request FillRequest()
 		{
 			var req = client.CreateRequest().Results().ForPage(GetPageNumber());
 
 			if (Nationality?.Length > 0)
 			{
-				req.ForNationality(Nationality.Replace(" ", "").ToLower()).ForSeed();
-
+				req.ForNationality(Nationality.StripSpacesToLower()).ForSeed();
 			}
 			if (Gender?.Length > 0)
 			{
 				//seeds don't work with gender selection
-				req.ForGender(Gender.Replace(" ", "").ToLower());
+				req.ForGender(Gender.StripSpacesToLower());
 			}
 
 			return req;
@@ -89,7 +71,22 @@ namespace RandomUser
 			OnPropertyChanged(nameof(TotalUsers));
 			IsListRefreshing = false;
 			OnPropertyChanged(nameof(IsListRefreshing));
+		});
 
+		public ICommand LoadUsersCommand => new Command(async () =>
+		{
+			var users = await client.MakeRequestAsync(FillRequest());
+
+			var t = new ObservableCollection<User>(Users ?? new ObservableCollection<User>());
+			foreach (var item in users)
+			{
+				t.Add(item);
+			}
+			Users = new ObservableCollection<User>(t);
+			OnPropertyChanged(nameof(Users));
+			OnPropertyChanged(nameof(TotalUsers));
+			IsListRefreshing = false;
+			OnPropertyChanged(nameof(IsListRefreshing));
 		});
 	}
 }

@@ -54,7 +54,6 @@ namespace RandomUser.ViewModels
 			}
 			OnPropertyChanged(nameof(PropName));
 			OnPropertyChanged(nameof(PropValue));
-
 		}
 	}
 }

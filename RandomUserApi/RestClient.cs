@@ -12,23 +12,23 @@ namespace RandomUserApi
 {
 	public interface IRestClient
 	{
-		Request CreateRequest();
 		Task<User[]> MakeRequestAsync(Request request);
+
+		Request CreateRequest();
 	}
 
-	public class RestClient : IRestClient
-	{
+	public class RestClient : IRestClient 
+	{ 
 		private HttpClient client;
 		private RestClientConfig config;
-
-
-		private Request request;
 
 		public RestClient(RestClientConfig config)
 		{
 			this.config = config;
 			
-			//TODO can be extracted to separate method and added to the interface declaration
+			//Http client's creation and configuration can be pulled to separate class and injected via constructor parameter 
+			//in accordance with SOLID recommendations, but in this particular sample its creation here in constructor 
+			//looks acceptible.
 			client = new HttpClient
 			{
 				BaseAddress = new Uri("https://randomuser.me")
@@ -63,7 +63,8 @@ namespace RandomUserApi
 				}
 				else
 				{
-					//TODO process error
+					//process error in any required manner
+					Debug.WriteLine("Error received: " + apiResponse.Error);
 				}
 			}
 			catch (Exception e)
@@ -72,31 +73,30 @@ namespace RandomUserApi
 			}
 			return new User[0];
 		}
-
 	}
 
 	public class RestClientConfig
 	{
 		public string BasePath => "/api";
 
-		public string[] IncludeFields;
 		private string seed;
 
 		public string Seed { get => seed ?? ""; set => seed = value; }
 		public bool UseSeed { get; set; }
-
-		public RestClientConfig(string[] fields)
-		{
-			IncludeFields = fields;
-
-		}
-
-		public RestClientConfig()
-		{
-		}
 	}
 
-	public class Request
+
+	public interface IRequest
+	{
+		Request ForGender(string gender);
+		Request ForNationality(string nat);
+		Request ForPage(int page);
+		Request ForSeed();
+		string GetPath();
+		Request Results(int usersPerPage = 10);
+	}
+
+	public class Request:IRequest
 	{
 		private readonly RestClientConfig config;
 
@@ -114,7 +114,6 @@ namespace RandomUserApi
 			return this;
 		}
 
-
 		public Request ForPage(int page)
 		{
 			AddSegment(new RequestSegment(RequestSegment.Page, page.ToString()));
@@ -130,6 +129,7 @@ namespace RandomUserApi
 		public Request ForGender(string gender)
 		{
 			AddSegment(new RequestSegment(RequestSegment.Gender, gender));
+			//gender selection does not work with seeds
 			_segments.Remove(RequestSegment.Seed);
 			return this;
 		}
@@ -151,8 +151,6 @@ namespace RandomUserApi
 			return this;
 		}
 
-		
-
 		public string GetPath()
 		{
 			return config.BasePath + "?" + string.Join("&", _segments.Select(x => x.Value.Name + "=" + x.Value.Value).ToArray());
@@ -168,9 +166,6 @@ namespace RandomUserApi
 
 			return path + "?" + segment;
 		}
-
-		
-
 	}
 
 	public class RequestSegment
@@ -182,14 +177,11 @@ namespace RandomUserApi
 		public const string Gender = "gender";
 		public const string Nationality = "nat";
 
-
-
 		private string _name;
 		private string _value;
 
 		public string Name => _name;
 		public string Value => _value;
-
 
 		public RequestSegment(string paramName, string value)
 		{
